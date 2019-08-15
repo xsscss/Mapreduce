@@ -10,8 +10,10 @@ import org.apache.hadoop.mapreduce.Mapper;
  * @author aparke
  思路分析：
 
-如果参数location参数相同，那么再判断时间（转为long型），时间相差在60min中以内 则认为是同一个value,
-并且将他们时间相加删除这个key
+
+如果参数location参数相同，那么再判断时间（转为long型），对每条数据升序排列，判断当前时间加上停留时间是否与
+下一条数据相等，相等则划为一组，通过mapreduce的一个GroupingComparator类来将相同的组的key合并
+
 id作为key无法控制， 所以需要自定义封装类来完成
 将key设置为 value1第一个值  
  		  key       			value
